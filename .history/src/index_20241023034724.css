@@ -1,0 +1,242 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+:root {
+  --bg-primary: linear-gradient(45deg, #1d57b2, #20478b, #1e52a5);
+  --credential-bg: #fff;
+  --btn-primary: #1c4481;
+  --bg-darkblue: #1c4481;
+  --btn-primary-hover: #17386e;
+  --text-primary: #1f4e9c;
+  --black: #000;
+  --white: #fff;
+ 
+  --font-family: "Poppins", sans-serif;
+  --progress-bar-width: 7vw;
+  --progress-bar-height: 7vw;
+  --font-size: 1rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.carousel-controls {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem; /* Adjust as needed */
+}
+
+.carousel-controls .btn {
+  background-color: rgba(255, 255, 255, 0.7); /* Adjust button color */
+  border: none;
+}
+
+
+html,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+p,
+* {
+  font-family: var(--font-family) !important;
+}
+
+html {
+  font-size: 15px;
+}
+
+.warapper-login,
+.warapper-form,
+.warapper-Otp {
+  background: var(--credential-bg);
+  width: 28.8vw;
+  border-radius: 1.6vw;
+  margin: auto;
+  display: block;
+  padding: 1.3vw;
+  position: relative;
+  top: 56%;
+  transform: translateY(-50%);
+}
+
+@media only screen and (max-width: 1280px) {
+  .imageicon img:nth-child(1) {
+    width: 25%;
+  }
+  .dashboardContainer {
+    height: 34vw;
+  }
+
+  .graphWrapper {
+    width: 25vw;
+  }
+}
+
+.warapper-form h4 {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.warapper-login label,
+.warapper-form label,
+.warapper-form select {
+  color: #435dbc !important;
+  font-weight: 400;
+}
+
+.warapper-login input,
+.warapper-form input {
+  color: var(--black) !important;
+  padding-left: 2rem !important;
+}
+
+.warapper-login input,
+.warapper-login label,
+.warapper-form input,
+.warapper-form label,
+.warapper-form select {
+  font-weight: 400;
+}
+
+.border-line {
+  display: block;
+  width: 90%;
+  margin: 1.8vw auto;
+  border: 1px solid #ddd;
+  position: relative;
+}
+
+.border-line ~ h6 {
+  margin: 1vw 0;
+}
+
+.border-line::after {
+  content: "OR";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ccc;
+  color: #555;
+  width: 1.83vw;
+  height: 1.83vw;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.5rem;
+  font-weight: 800;
+}
+
+
+
+
+
+
+.imageicon1 img:nth-child(1) {
+  top: 0;
+  right: 5%;
+  mix-blend-mode: luminosity;
+  width: 18%;
+}
+
+.imageicon1 img:nth-child(2) {
+  top: 14%;
+  left: 4%;
+  width: 15%;
+}
+
+.imageicon1 img:nth-child(3) {
+  top: 35%;
+  right: 4%;
+  width: 8%;
+}
+
+.imageicon1 img:nth-child(4) {
+  bottom: 0%;
+  left: 5%;
+  mix-blend-mode: luminosity;
+  width: 20%;
+}
+
+.imageicon1 img:nth-child(5) {
+  bottom: 0;
+  right: 0;
+  width: 45%;
+}
+.imageicon1 img {
+  position: absolute;
+}
+
+.warapper-login-alert .btn-primary img {
+  width: 10%;
+}
+
+.warapper-login-alert .btn-primary {
+  padding: 1.1vw 2.25vw !important;
+  box-shadow: 0px 15px 22px rgba(17, 89, 241, 0.33);
+  margin: 2.6vw auto;
+}
+
+.btn-primary {
+  margin: 1.2vw auto;
+}
+
+.tool-tip-Text {
+  display: none;
+  position: absolute;
+  top: 130%;
+  right: 50%;
+  border-radius: 5px;
+  width: 10vw;
+  text-align: center;
+  background: #000;
+  color: #fff;
+  padding: 0.5vw;
+  transform: translateX(50%);
+  font-size: 0.75rem;
+  text-transform: capitalize;
+}
+
+.tool-tip-Text::after {
+  border-left: 1vw solid transparent;
+  border-right: 1vw solid transparent;
+  border-top: 1vw solid transparent;
+  border-bottom: 1vw solid var(--black);
+  position: absolute;
+  top: -88%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  content: "";
+  width: 0.6vw;
+  height: 100%;
+}
+
+.tooltipImage:hover .tool-tip-Text {
+  display: inline-block;
+}
+
+/* login page css end */
+

@@ -1,0 +1,97 @@
+
+
+
+
+.layout-page {
+    padding: 20px;
+}
+
+.card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    color: white; /* Text color for cards */
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Card background colors */
+
+
+.icon-card {
+    font-size: 3rem; /* Icon size */
+    margin-bottom: 10px;
+}
+
+.card-icon {
+    margin-bottom: 15px; /* Space between icon and title */
+}
+
+
+.btn-light:hover {
+    background-color: #e2e6ea; /* Light grey on hover */
+}
+
+.alert {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.upDashboard {
+    background-color: #f0f0f0; /* Light gray background */
+}
+
+/* Custom margin for staggered effect */
+.mb-4 {
+    margin-bottom: 2rem; /* Increase spacing between rows */
+}
+
+
+
+
+.card {
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Box shadow */
+    transition: transform 0.2s; /* Smooth hover effect */
+    color: black; /* Set text color to black */
+}
+
+.card:hover {
+    transform: scale(1.05); /* Scale up on hover */
+}
+
+.card-light-blue {
+    background-color: rgba(0, 123, 255, 0.1); /* Light blue background */
+}
+
+.card-light-green {
+    background-color: rgba(40, 167, 69, 0.1); /* Light green background */
+}
+
+.card-light-yellow {
+    background-color: rgba(255, 193, 7, 0.1); /* Light yellow background */
+}
+
+.card-icon {
+    font-size: 2rem; /* Adjust icon size */
+    color: #007bff; /* Change icon color */
+}
+
+.card-title {
+    color: black; /* Ensure card title is black */
+}
+
+.card-data {
+    text-align: right; /* Align text to the right */
+    color: black; /* Ensure data text is black */
+}
+
+.card-footer .btn {
+    color: black; /* Button text color */
+}
+
