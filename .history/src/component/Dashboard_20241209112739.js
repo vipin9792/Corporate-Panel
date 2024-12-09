@@ -1,0 +1,301 @@
+// src/Dashboard.js
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+// import { fetchDashboardDetails, fetchSubscriptionTransactions } from "./apiService"; 
+import SignupAPI from "../Api Folder/SignupAPI";
+import DashboardApi from "../Api Folder/Dasjh"
+import Footer from "./Footer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserCircle, faSignOutAlt, faCalendarAlt, faUserEdit, faCoffee } from "@fortawesome/free-solid-svg-icons";
+
+const Dashboard = () => {
+  const { corp_id } = useParams();
+
+  const [data, setData] = useState({ exam: 0, batch: 0, student: 0 });
+  const [plan, setPlan] = useState(null); // State to hold the most recent plan data
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  // Fetch dashboard and transaction data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("Fetching data for corp_id:", corp_id);
+
+        // Fetch dashboard data
+        const dashboardResponse = await fetchDashboardDetails(corp_id);
+        if (dashboardResponse.code === 1000) {
+          setData(dashboardResponse.detail);
+        } else {
+          setError("Unexpected response code: " + dashboardResponse.code);
+        }
+
+        // Fetch transaction data (plan purchase details)
+        const transactionResponse = await fetchSubscriptionTransactions(corp_id);
+
+        // Filter successful transactions
+        const successfulTransactions = transactionResponse.transactions.filter(
+          (transaction) => transaction.payment_status === 1
+        );
+
+        if (successfulTransactions.length > 0) {
+          // Sort the successful transactions by payment date to get the latest
+          const latestTransaction = successfulTransactions.sort((a, b) => new Date(b.payment_date) - new Date(a.payment_date))[0];
+          setPlan(latestTransaction); // Set the latest successful plan
+        } else {
+          setPlan(null); // No active plan, set it as null
+        }
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        setError("Error fetching data: " + err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [corp_id]);
+
+  return (
+    <>
+      <div className="d-flex flex-column min-vh-100 position-relative">
+        <div className="layout-wrapper layout-content-navbar flex-grow-1">
+          <div className="layout-container" style={{ position: "relative" }}>
+            {/* Sidebar */}
+            <aside
+              id="layout-menu"
+              className="layout-menu menu-vertical menu bg-primary"
+              style={{ height: "100vh", zIndex: 1 }}
+            >
+              <div className="app-brand demo" style={{ background: "#1C4481" }}>
+                <a href="index.html" className="app-brand-link">
+                  <img
+                    src="../logo1.png" style={{ mixBlendMode: "luminosity", opacity: "0.8" }}
+                    alt="dashboard-active"
+                    className="img-fluid"
+                  />
+                </a>
+                <Link
+                  to="/"
+                  className="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none"
+                >
+                  <i className="bx bx-chevron-left bx-sm align-middle"></i>
+                </Link>
+              </div>
+              <div className="menu-inner-shadow"></div>
+              <ul
+                className="menu-inner py-1 demo"
+                style={{ background: "#1C4481" }}
+              >
+                <li className="menu-item active">
+                  <Link to={`/Dashboard/${corp_id}`} className="menu-link text-decoration-none">
+                    <img
+                      src="../dashboard-active.svg"
+                      alt=""
+                      className="menu-icon tf-icons bx bx-home-circle"
+                    />
+                    <div data-i18n="Analytics">Dashboard</div>
+                  </Link>
+                </li>
+                <br />
+                {/* Other menu items here */}
+                <li>
+                  <Link to="/" className="menu-link mx-3 text-decoration-none">
+                    <FontAwesomeIcon
+                      icon={faSignOutAlt}
+                      size="1x"
+                      style={{ color: "white" }}
+                    />{" "}
+                    <span className="mx-2 text-white">Logout</span>
+                  </Link>
+                </li>
+              </ul>
+            </aside>
+
+            {/* Content Area */}
+            <div className="layout-page bg-white">
+              <div className="container h-15vh">
+                <div className="row mt-3 align-items-center">
+                  <div className="col-lg-8">
+                    <h4 className="fw-bold text-primary">Dashboard</h4>
+                  </div>
+                  <div className="col-lg-4">
+                    <div className="row justify-content-end">
+                      <div className="col-lg-6">
+                        <div className="border rounded-pill p-1 d-flex align-items-center upDashboard">
+                          <img
+                            src="../d-user.svg"
+                            alt="d-user"
+                            className="img-fluid"
+                            width="50px"
+                          />
+                          <h6 className="ms-2 mb-0">
+                            <span className="text-primary lh-1">Welcome</span>
+                            <br /> User TP
+                            <a href="">
+                              <FontAwesomeIcon
+                                icon={faSignOutAlt}
+                                style={{ color: "grey", width: "35px", height: "15px" }}
+                              />
+                            </a>
+                          </h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {loading && <p>Loading data...</p>}
+              {error && <p className="text-danger">{error}</p>}
+
+              {!loading && !error && (
+                <div className="container mt-2">
+                  {/* Check if plan is active */}
+                  {plan ? (
+                    <div
+                      className="card shadow-sm rounded"
+                      style={{ background: "#F8F9FA", padding: "5px" }}
+                    >
+                      <h4 className="card-title text-center text-success mb-3">
+                        Active Plan: <span className="fw-bold text-primary">{plan.plan_name}</span>
+                      </h4>
+                      <div className="d-flex justify-content-between mb-1">
+                        <div>
+                          <h6 className="text-muted">Amount</h6>
+                          <p className="fs-4 text-primary">₹{plan.amount}</p>
+                        </div>
+                        <div>
+                          <h6 className="text-muted">Payment Date</h6>
+                          <p className="fs-4 text-primary">{new Date(plan.payment_date).toLocaleDateString()}</p>
+                        </div>
+                        <div>
+                          <h6 className="text-muted">Status</h6>
+                          <p className="fs-4 text-success">
+                            {plan.payment_status === 1 ? "Success" : "Failed"}
+                          </p>
+                        </div>
+                      </div>
+                      <Link
+                        to={`/UpgradePlan/${corp_id}`}
+                        className="btn btn-primary w-100 mt-1"
+                      >
+                        Upgrade Plan
+                      </Link>
+                    </div>
+                  ) : (
+                    // If plan is not active, show static data
+                    <div className="alert alert-warning text-center p-4 shadow-sm rounded">
+                      <h4 className="text-uppercase mb-3">No Active Subscription Found</h4>
+                      <p className="fs-5">Your current plan has expired, please upgrade.</p>
+                      <Link to={`/UpgradePlan/${corp_id}`} className="btn btn-info">Upgrade Now</Link>
+                    </div>
+                  )}
+                  
+                  {/* Static Data */}
+                  <div className="row mt-3">
+                    <div className="col-md-4 mb-4 rounded-lg">
+                      <span
+                        href="#"
+                        className="card text-center card-light-blue"
+                        style={{ background: "#4775d1", borderRadius: "22px" }}
+                      >
+                        <div className="card-body d-flex align-items-center justify-content-between">
+                          <div className="flex-grow-1 text-start">
+                            <img src="../batch.svg" alt="" />
+                            <h5
+                              className="card-title my-2 text-white fs-5"
+                              style={{ width: "110px" }}
+                            >
+                              Exam
+                            </h5>
+                          </div>
+                          <div className="card-data text-start">
+                            <span className="fs-2 text-white">{data.exam}</span>
+                          </div>
+                        </div>
+                        <div className="mb-4 my-2">
+                          <Link
+                            to={`/ExamListPage/${corp_id}`}
+                            className="btn btn-light border-secondary"
+                          >
+                            View Details
+                          </Link>
+                        </div>
+                      </span>
+                    </div>
+
+                    <div className="col-md-4 mb-4">
+                      <a
+                        href="exams.html"
+                        className="card text-center card-light-green text-decoration-none"
+                        style={{ background: "#004d4d", borderRadius: "22px" }}
+                      >
+                        <div className="card-body d-flex align-items-center justify-content-between">
+                          <div className="flex-grow-1 text-start">
+                            <img src="../candidate.svg" alt="" />
+                            <h5
+                              className="card-title my-2 text-white fs-5"
+                              style={{ width: "110px" }}
+                            >
+                              Students
+                            </h5>
+                          </div>
+                          <div className="card-data text-start">
+                            <span className="fs-2 text-white">{data.student}</span>
+                          </div>
+                        </div>
+                        <div className="mb-4 my-2">
+                          <Link
+                            to={`/StudentListPage/${corp_id}`}
+                            className="btn btn-light border-secondary"
+                          >
+                            View Details
+                          </Link>
+                        </div>
+                      </a>
+                    </div>
+
+                    <div className="col-md-4 mb-4">
+                      <a
+                        href="exams.html"
+                        className="card text-center card-light-orange text-decoration-none"
+                        style={{ background: "#d4742b", borderRadius: "22px" }}
+                      >
+                        <div className="card-body d-flex align-items-center justify-content-between">
+                          <div className="flex-grow-1 text-start">
+                            <img src="../student.svg" alt="" />
+                            <h5
+                              className="card-title my-2 text-white fs-5"
+                              style={{ width: "110px" }}
+                            >
+                              Batches
+                            </h5>
+                          </div>
+                          <div className="card-data text-start">
+                            <span className="fs-2 text-white">{data.batch}</span>
+                          </div>
+                        </div>
+                        <div className="mb-4 my-2">
+                          <Link
+                            to={`/BatchListPage/${corp_id}`}
+                            className="btn btn-light border-secondary"
+                          >
+                            View Details
+                          </Link>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    </>
+  );
+};
+
+export default Dashboard;

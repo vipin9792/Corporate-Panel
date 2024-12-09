@@ -1,0 +1,12 @@
+Cannot read properties of undefined (reading 'toLowerCase')
+TypeError: Cannot read properties of undefined (reading 'toLowerCase')
+    at http://localhost:3000/static/js/bundle.js:8802:47
+    at Array.map (<anonymous>)
+    at UpgradePlan (http://localhost:3000/static/js/bundle.js:8791:43)
+    at renderWithHooks (http://localhost:3000/static/js/bundle.js:41848:22)
+    at updateFunctionComponent (http://localhost:3000/static/js/bundle.js:45415:24)
+    at beginWork (http://localhost:3000/static/js/bundle.js:47134:20)
+    at HTMLUnknownElement.callCallback (http://localhost:3000/static/js/bundle.js:32104:18)
+    at Object.invokeGuardedCallbackDev (http://localhost:3000/static/js/bundle.js:32148:20)
+    at invokeGuardedCallback (http://localhost:3000/static/js/bundle.js:32205:35)
+    at beginWork$1 (http://localhost:3000/static/js/bundle.js:52103:11)
